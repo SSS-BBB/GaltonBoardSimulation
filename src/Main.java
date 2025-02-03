@@ -1,25 +1,20 @@
 public class Main {
     public static void main(String[] args) {
-        // System.out.printf("%-9s%n", "*");
-        Board board = new Board(5);
+        int boardHeight = 7;
+        Board board = new Board(boardHeight);
 
-        board.showBoard();
-        board.drop();
-        System.out.println("-----------------");
+        for (int i = 0; i < boardHeight + 1; i++) {
+            board.showBoard();
+            board.drop();
+            wait(1000);
+        }
+    }
 
-        board.showBoard();
-        board.drop();
-        System.out.println("-----------------");
-
-        board.showBoard();
-        board.drop();
-        System.out.println("-----------------");
-
-
-        board.showBoard();
-        board.drop();
-        board.showBottomBall();
-        System.out.println("-----------------");
-
+    public static void wait(int ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

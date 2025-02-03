@@ -104,6 +104,8 @@ public class Board {
             firstIndex -= 1;
             lastIndex = firstIndex + n*2;
         }
+
+        showBottomBall();
     }
 
     public void showBottomBall() {
