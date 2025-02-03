@@ -8,11 +8,14 @@ public class Ball {
 
     private String sign;
 
+    private boolean onBottom;
+
     public Ball(int initRow, int initCol, int boardHeight, String sign) {
         currentRow = initRow;
         currentCol = initCol;
         this.sign = sign;
         this.boardHeight = boardHeight;
+        reset();
     }
 
     public Ball(int boardHeight) {
@@ -20,12 +23,19 @@ public class Ball {
         currentCol = 1;
         this.sign = "o";
         this.boardHeight = boardHeight;
+        reset();
+    }
+
+    public void reset() {
+        onBottom = false;
     }
 
     public void drop() {
         if (currentRow <= boardHeight) {
             Random rand = new Random();
             // 25% chance that the ball will not drop to the next row
+            if (rand.nextInt(100) < 25)
+                return;
 
             currentRow += 1; // drop down
             // 50% chance
@@ -48,6 +58,14 @@ public class Ball {
 
     public String getSign() {
         return sign;
+    }
+
+    public void updateOnBottomStatus(boolean status) {
+        onBottom = status;
+    }
+
+    public boolean isAlreadyOnBottom() {
+        return onBottom;
     }
 
 }

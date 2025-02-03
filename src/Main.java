@@ -1,10 +1,10 @@
 public class Main {
     public static void main(String[] args) {
-        int boardHeight = 20;
+        int boardHeight = 50;
         int ballAmount = 80;
         Board board = new Board(boardHeight, ballAmount);
 
-        for (int i = 0; i < boardHeight + 1; i++) {
+        while (!board.allBallsFinished()) {
             board.showBoard();
             board.dropAll();
             wait(500);

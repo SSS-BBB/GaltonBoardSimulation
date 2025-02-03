@@ -1,5 +1,3 @@
-import java.util.Random;
-
 public class Board {
 
     private int height; // number of rows on the board
@@ -53,11 +51,17 @@ public class Board {
         for (int i = 0; i < balls.length; i++) {
             balls[i] = new Ball(height);
         }
+
+        countBottom = 0;
     }
 
     public void dropAll() {
         for (Ball ball : balls) {
             ball.drop();
+            if (ball.getCurrentRow() > height && !ball.isAlreadyOnBottom()) {
+                countBottom++;
+                ball.updateOnBottomStatus(true);
+            }
         }
     }
 
@@ -148,6 +152,10 @@ public class Board {
         }
 
         System.out.println();
+    }
+
+    public boolean allBallsFinished() {
+        return countBottom >= ballAmount;
     }
 
 }
