@@ -6,6 +6,8 @@ public class Board {
     private int width; // width of the last row + 1 (bottom row to show final ball)
 
     private Ball[] balls;
+    private int ballAmount;
+    private int countBottom; // The amount of balls that have been to bottom
     /* Ex. height = 5, ballRow = 3, ballCol = 2, length = 9
         *
 
@@ -31,25 +33,26 @@ public class Board {
     2 4 6 8 10
     */
 
-    public Board(int height) {
+    public Board(int height, int ballAmount) {
         this.height = height;
+        this.ballAmount = ballAmount;
         resetBoard();
     }
 
     public Board() {
         height = 7;
+        ballAmount = 5;
         resetBoard();
     }
 
     public void resetBoard() {
         width = 2*height + 1;
-        balls = new Ball[]{
-                new Ball(height, "o"),
-                new Ball(height, "a"),
-                new Ball(height, "b"),
-                new Ball(height, "c"),
-                new Ball(height, "d"),
-        };
+        balls = new Ball[ballAmount];
+
+        // Create ball object
+        for (int i = 0; i < balls.length; i++) {
+            balls[i] = new Ball(height);
+        }
     }
 
     public void dropAll() {
@@ -106,6 +109,45 @@ public class Board {
 
     private int getIndex(int firstIndex, int col) {
         return firstIndex + (col - 1) * 2;
+    }
+
+    public void showResults() {
+        // column Index =>  1, 2, 3, 4, 5, 6, ...
+        // array Index  =>  0, 1, 2, 3, 4, 5, ...
+        int[] colDropFrequency = new int[height + 1];
+        for (Ball ball : balls) {
+            if (ball.getCurrentRow() > height) {
+                colDropFrequency[ball.getCurrentCol() - 1] += 1;
+            }
+        }
+
+        // Find max frequency
+        int max = 0;
+        for (int i = 0; i < colDropFrequency.length; i++) {
+            if (colDropFrequency[i] > max) {
+                max = colDropFrequency[i];
+            }
+        }
+
+        while (max > 0) {
+            for (int i = 0; i < colDropFrequency.length; i++) {
+                if (colDropFrequency[i] >= max)
+                    System.out.print("o");
+                else
+                    System.out.print(" ");
+
+                System.out.print(" ");
+            }
+            System.out.println();
+            max -= 1;
+        }
+
+
+        for (int x : colDropFrequency) {
+            System.out.print(x + " "); // 2 digits bug
+        }
+
+        System.out.println();
     }
 
 }

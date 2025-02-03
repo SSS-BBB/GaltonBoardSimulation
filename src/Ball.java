@@ -15,17 +15,19 @@ public class Ball {
         this.boardHeight = boardHeight;
     }
 
-    public Ball(int boardHeight, String sign) {
+    public Ball(int boardHeight) {
         currentRow = 1;
         currentCol = 1;
-        this.sign = sign;
+        this.sign = "o";
         this.boardHeight = boardHeight;
     }
 
     public void drop() {
         if (currentRow <= boardHeight) {
-            currentRow += 1; // drop down
             Random rand = new Random();
+            // 25% chance that the ball will not drop to the next row
+
+            currentRow += 1; // drop down
             // 50% chance
             if (rand.nextInt(10) >= 5) {
                 // to right
