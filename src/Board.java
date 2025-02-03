@@ -3,7 +3,7 @@ import java.util.Random;
 public class Board {
 
     private int height; // number of rows on the board
-    private int width; // width of the last row
+    private int width; // width of the last row + 1 (bottom row to show final ball)
 
     private int ballRow; // the row of * that o is sitting on top
     private int ballCol; // the column of * that o is sitting on top (ballCol <= ballRow always)
@@ -19,18 +19,19 @@ public class Board {
      * * * *
 
     * * * * *
+
      */
 
     /*
-        5
+        6
 
-       4 6
+       5 7
 
-      3 5 7
+      4 6 8
 
-     2 4 6 8
+     3 5 7 9
 
-    1 3 5 7 9
+    2 4 6 8 10
     */
 
     public Board(int height) {
@@ -46,7 +47,7 @@ public class Board {
     public void resetBoard() {
         ballRow = 1;
         ballCol = 1;
-        width = 2*height - 1;
+        width = 2*height + 1;
         bottomBall = -1;
     }
 
@@ -103,6 +104,23 @@ public class Board {
             firstIndex -= 1;
             lastIndex = firstIndex + n*2;
         }
+    }
+
+    public void showBottomBall() {
+
+        if (bottomBall <= 0)
+            return;
+
+        int ballIndex = 1 + (bottomBall - 1) * 2;
+        for (int i = 1; i <= ballIndex; i++) {
+            if (i == ballIndex) {
+                System.out.print("o");
+            }
+            else {
+                System.out.print(" ");
+            }
+        }
+        System.out.println();
     }
 
     public int getBottomBall() {

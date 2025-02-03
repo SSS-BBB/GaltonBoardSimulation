@@ -15,18 +15,11 @@ public class Main {
         board.drop();
         System.out.println("-----------------");
 
-        board.showBoard();
-        board.drop();
-        System.out.println("-----------------");
 
         board.showBoard();
         board.drop();
+        board.showBottomBall();
         System.out.println("-----------------");
-
-        board.showBoard();
-        board.drop();
-        System.out.println("-----------------");
-
 
     }
 }
