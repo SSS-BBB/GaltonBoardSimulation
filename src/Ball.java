@@ -26,7 +26,7 @@ public class Ball {
         reset();
     }
 
-    public void reset() {
+    private void reset() {
         onBottom = false;
     }
 

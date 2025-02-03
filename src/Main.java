@@ -1,18 +1,16 @@
 public class Main {
     public static void main(String[] args) {
-        int boardHeight = 50;
-        int ballAmount = 80;
+        int boardHeight = 7;
+        int ballAmount = 10;
         Board board = new Board(boardHeight, ballAmount);
 
+        board.showBoard();
         while (!board.allBallsFinished()) {
-            board.showBoard();
+            System.out.println("---------------------------------");
             board.dropAll();
-            wait(500);
+            board.showBoard();
+            wait(1000);
         }
-
-        System.out.println("---------------");
-        System.out.println("Result:");
-        board.showResults();
     }
 
     public static void wait(int ms) {
