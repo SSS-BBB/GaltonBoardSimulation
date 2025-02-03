@@ -5,7 +5,7 @@ public class Main {
 
         for (int i = 0; i < boardHeight + 1; i++) {
             board.showBoard();
-            board.drop();
+            board.dropAll();
             wait(1000);
         }
     }

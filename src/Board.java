@@ -5,10 +5,7 @@ public class Board {
     private int height; // number of rows on the board
     private int width; // width of the last row + 1 (bottom row to show final ball)
 
-    private int ballRow; // the row of * that o is sitting on top
-    private int ballCol; // the column of * that o is sitting on top (ballCol <= ballRow always)
-
-    private int bottomBall; // position when ball is at the bottom
+    private Ball[] balls;
     /* Ex. height = 5, ballRow = 3, ballCol = 2, length = 9
         *
 
@@ -45,27 +42,19 @@ public class Board {
     }
 
     public void resetBoard() {
-        ballRow = 1;
-        ballCol = 1;
         width = 2*height + 1;
-        bottomBall = -1;
+        balls = new Ball[]{
+                new Ball(height, "o"),
+                new Ball(height, "a"),
+                new Ball(height, "b"),
+                new Ball(height, "c"),
+                new Ball(height, "d"),
+        };
     }
 
-    public void drop() {
-        if (ballRow <= height) {
-            ballRow += 1; // drop down
-            Random rand = new Random();
-            // 50% chance
-            if (rand.nextInt(10) >= 5) {
-                // to right
-                ballCol += 1;
-            }
-
-            // to left: ballCol doesn't change
-
-            if (ballRow > height) {
-                bottomBall = ballCol;
-            }
+    public void dropAll() {
+        for (Ball ball : balls) {
+            ball.drop();
         }
     }
 
@@ -73,22 +62,31 @@ public class Board {
         int firstIndex = (width + 1) / 2; // first position of '*' at nth row
         int lastIndex  = firstIndex; // last position of '*' at nth row
 
-        for (int n = 1; n <= height; n++) {
+        for (int n = 1; n <= height + 1; n++) {
 
             // Show 'o' at the current position
-            if (n == ballRow && ballCol <= ballRow) {
-                int ballIndex = firstIndex + (ballCol - 1)*2;
-                for (int k = 1; k <= ballIndex; k++) {
-                    if (k == ballIndex) {
-                        System.out.print("o");
-                    }
-                    else {
-                        System.out.print(" ");
+            for (int k = 1; k <= lastIndex; k++) {
+                boolean vacant = true;
+                for (Ball ball : balls) {
+                    if (ball.getCurrentRow() == n && k == getIndex(firstIndex, ball.getCurrentCol())) {
+                        System.out.print(ball.getSign());
+                        vacant = false;
+                        break;
                     }
                 }
+                if (vacant) {
+                    System.out.print(" ");
+                }
+
             }
 
+
+
             System.out.println();
+
+            if (n > height)
+                break;
+
             // Show '*' at the right position
             for (int i = 1; i <= lastIndex; i++) {
                 int check = i - firstIndex + 2;
@@ -104,28 +102,10 @@ public class Board {
             firstIndex -= 1;
             lastIndex = firstIndex + n*2;
         }
-
-        showBottomBall();
     }
 
-    public void showBottomBall() {
-
-        if (bottomBall <= 0)
-            return;
-
-        int ballIndex = 1 + (bottomBall - 1) * 2;
-        for (int i = 1; i <= ballIndex; i++) {
-            if (i == ballIndex) {
-                System.out.print("o");
-            }
-            else {
-                System.out.print(" ");
-            }
-        }
-        System.out.println();
+    private int getIndex(int firstIndex, int col) {
+        return firstIndex + (col - 1) * 2;
     }
 
-    public int getBottomBall() {
-        return bottomBall;
-    }
 }
