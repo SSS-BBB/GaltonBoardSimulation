@@ -1,9 +1,14 @@
+import java.util.Random;
+
 public class Board {
 
     private int height; // number of rows on the board
+    private int width; // width of the last row
+
     private int ballRow; // the row of * that o is sitting on top
     private int ballCol; // the column of * that o is sitting on top (ballCol <= ballRow always)
-    private int width; // Width of the last row
+
+    private int bottomBall; // position when ball is at the bottom
     /* Ex. height = 5, ballRow = 3, ballCol = 2, length = 9
         *
 
@@ -39,9 +44,28 @@ public class Board {
     }
 
     public void resetBoard() {
-        ballRow = 5;
-        ballCol = 3;
+        ballRow = 1;
+        ballCol = 1;
         width = 2*height - 1;
+        bottomBall = -1;
+    }
+
+    public void drop() {
+        if (ballRow <= height) {
+            ballRow += 1; // drop down
+            Random rand = new Random();
+            // 50% chance
+            if (rand.nextInt(10) >= 5) {
+                // to right
+                ballCol += 1;
+            }
+
+            // to left: ballCol doesn't change
+
+            if (ballRow > height) {
+                bottomBall = ballCol;
+            }
+        }
     }
 
     public void showBoard() {
@@ -79,5 +103,9 @@ public class Board {
             firstIndex -= 1;
             lastIndex = firstIndex + n*2;
         }
+    }
+
+    public int getBottomBall() {
+        return bottomBall;
     }
 }
